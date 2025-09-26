@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= category.name %> News</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="/">MyChannel</a>
+      <nav>
+        <a href="/">Home</a>
+        <div class="dropdown">
+          <button class="dropbtn">Categories ▾</button>
+          <div class="dropdown-content">
+            <a href="/categories/Political">Political</a>
+            <a href="/categories/Entertainment">Entertainment</a>
+            <a href="/categories/Geographical">Geographical</a>
+            <a href="/categories/Sports">Sports</a>
+          </div>
+        </div>
+        <form action="/logout" method="post" style="display:inline">
+          <button class="link-button" type="submit">Logout</button>
+        </form>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="content-wrapper">
+      <!-- Left: Category News -->
+      <div class="main-content">
+        <h1><%= category.name %> News</h1>
+
+        <% if (news.length === 0) { %>
+          <p>No news yet in this category.</p>
+        <% } else { %>
+          <ul class="news-list">
+            <% news.forEach(item => { %>
+              <li>
+                <h3><%= item.title %></h3>
+                <p><%= item.content %></p>
+              </li>
+            <% }) %>
+          </ul>
+        <% } %>
+      </div>
+
+      <!-- Right: Trending Sidebar -->
+      <aside class="sidebar">
+        <h2>🔥 Trending News</h2>
+        <% if (typeof trendingNews !== "undefined" && trendingNews.length > 0) { %>
+          <ul class="trending-list">
+            <% trendingNews.forEach(t => { %>
+              <li>
+                <strong><%= t.title %></strong>
+                <p><%= t.content.substring(0, 60) %>...</p>
+              </li>
+            <% }) %>
+          </ul>
+        <% } else { %>
+          <p>No trending news available.</p>
+        <% } %>
+      </aside>
+      
+    </div>
+  </main>
+</body>
+</html>

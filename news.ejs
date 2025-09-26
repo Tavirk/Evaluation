@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage News</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/news">News</a>
+      <a href="/logout">Logout</a>
+    </nav>
+  </header>
+
+  <main class="content">
+    <h1>Admin - Manage News</h1>
+
+    <!-- ✅ Flash Messages -->
+    <% if (success_msg) { %>
+      <div class="message success" id="flashMessage"><%= success_msg %></div>
+    <% } %>
+    <% if (error_msg) { %>
+      <div class="message error" id="flashMessage"><%= error_msg %></div>
+    <% } %>
+
+    <!-- ✅ Add News Form -->
+    <section>
+      <h2>Add News</h2>
+      <form action="/news/add" method="POST">
+        <label>Title:</label>
+        <input type="text" name="title" required>
+
+        <label>Category:</label>
+        <input type="text" name="category" placeholder="e.g. Political" required>
+
+        <label>Content:</label>
+        <textarea name="content" rows="4" required></textarea>
+
+        <button type="submit">Add News</button>
+      </form>
+    </section>
+
+    <!-- ✅ Existing News -->
+    <section>
+      <h2>Existing News</h2>
+
+      <% if (categories && categories.length > 0) { %>
+        <% categories.forEach(cat => { %>
+          <h3><%= cat.name %></h3>
+          <ul>
+            <% if (cat.news && cat.news.length > 0) { %>
+              <% cat.news.forEach(n => { %>
+                <li>
+                  <strong><%= n.title %></strong>
+                  <p><%= n.content %></p>
+                </li>
+              <% }) %>
+            <% } else { %>
+              <li>No news available in this category.</li>
+            <% } %>
+          </ul>
+        <% }) %>
+      <% } else { %>
+        <p>No categories found.</p>
+      <% } %>
+    </section>
+  </main>
+</body>
+</html>

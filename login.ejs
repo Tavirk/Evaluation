@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="/">MyChannel</a>
+      <nav>
+        <% if (!currentUser) { %>
+          <a href="/">Home</a>
+          <a href="/login">Login</a>
+          <a href="/register">Register</a>
+        <% } else if (currentUser.role === 'admin') { %>
+          <a href="/">Home</a>
+          <a href="/news">News</a>
+          <form action="/logout" method="post" style="display:inline">
+            <button class="link-button" type="submit">Logout</button>
+          </form>
+        <% } else { %>
+          <a href="/">Home</a>
+          <div class="dropdown">
+            <button class="dropbtn">Categories ▾</button>
+            <div class="dropdown-content">
+              <a href="/categories/Political">Political</a>
+              <a href="/categories/Entertainment">Entertainment</a>
+              <a href="/categories/Geographical">Geographical</a>
+              <a href="/categories/Sports">Sports</a>
+            </div>
+          </div>
+          <form action="/logout" method="post" style="display:inline">
+            <button class="link-button" type="submit">Logout</button>
+          </form>
+        <% } %>
+      </nav>
+    </div>
+  </header>
+
+  <main class="auth-wrapper">
+    <div class="auth-card">
+      <h1 class="auth-title">Login</h1>
+  
+      <% if (error) { %>
+        <div class="error"><%= error %></div>
+      <% } %>
+  
+      <form action="/login" method="post" class="form">
+        <label>Email
+          <input type="email" name="email" value="<%= form.email || '' %>" required />
+        </label>
+        <label>Password
+          <input type="password" name="password" required />
+        </label>
+        <button type="submit">Login</button>
+      </form>
+  
+      <p class="auth-text">
+        Don't have an account? <a href="/register">Register</a>
+      </p>
+    </div>
+  </main>
+  
+
+  <footer class="site-footer">
+    <div class="container">© <%= new Date().getFullYear() %> MyChannel</div>
+  </footer>
+</body>
+</html>

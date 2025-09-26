@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="/">MyChannel</a>
+      <nav>
+        <% if (!currentUser) { %>
+          <a href="/">Home</a>
+          <a href="/login">Login</a>
+          <a href="/register">Register</a>
+        <% } else if (currentUser.role === 'admin') { %>
+          <a href="/">Home</a>
+          <a href="/news">News</a>
+          <form action="/logout" method="post" style="display:inline">
+            <button class="link-button" type="submit">Logout</button>
+          </form>
+        <% } else { %>
+          <a href="/">Home</a>
+          <div class="dropdown">
+            <button class="dropbtn">Categories ▾</button>
+            <div class="dropdown-content">
+              <a href="/categories/Political">Political</a>
+              <a href="/categories/Entertainment">Entertainment</a>
+              <a href="/categories/Geographical">Geographical</a>
+              <a href="/categories/Sports">Sports</a>
+            </div>
+          </div>
+          <form action="/logout" method="post" style="display:inline">
+            <button class="link-button" type="submit">Logout</button>
+          </form>
+        <% } %>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <% if (currentUser) { %>
+      <p class="welcome">Welcome, <strong><%= currentUser.name %></strong></p>
+    <% } %>
+  
+    <div class="content-wrapper">
+      <!-- Left: Main News Feed -->
+      <div class="main-content">
+        <h1>Latest News</h1>
+        <% if (allNews.length > 0) { %>
+          <ul class="news-list">
+            <% allNews.forEach(n => { %>
+              <li class="news-item">
+                <h3><%= n.title %></h3>
+                <p><%= n.content %></p>
+                <small>Category: <%= n.category %></small>
+              </li>
+            <% }) %>
+          </ul>
+        <% } else { %>
+          <p>No news available right now.</p>
+        <% } %>
+      </div>
+  
+      
+     
+<aside class="sidebar">
+  <h2>🔥 Trending News</h2>
+  <% if (trendingNews.length > 0) { %>
+    <ul class="trending-list">
+      <% trendingNews.forEach(t => { %>
+        <li>
+          <strong><%= t.title %></strong>
+          <p><%= t.content.substring(0, 60) %>...</p>
+        </li>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <p>No trending news available.</p>
+  <% } %>
+</aside>
+    </div>
+  </main>
+  
+
+  <footer class="site-footer">
+    <div class="container">© <%= new Date().getFullYear() %> MyChannel</div>
+  </footer>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const dropdownBtn = document.querySelector(".dropbtn");
+      const dropdown = document.querySelector(".dropdown");
+  
+      if (dropdownBtn && dropdown) {
+        dropdownBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          dropdown.classList.toggle("show");
+        });
+  
+        // Close dropdown if clicked outside
+        window.addEventListener("click", (e) => {
+          if (!dropdown.contains(e.target)) {
+            dropdown.classList.remove("show");
+          }
+        });
+      }
+    });
+  </script>
+  
+</body>
+</html>

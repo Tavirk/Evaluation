@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>All Categories</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="/">MyChannel</a>
+      <nav>
+        <a href="/">Home</a>
+        <div class="dropdown">
+          <button class="dropbtn">Categories ▾</button>
+          <div class="dropdown-content">
+            <% categories.forEach(c => { %>
+              <a href="/categories/<%= c.name %>"><%= c.name %></a>
+            <% }) %>
+          </div>
+        </div>
+        <form action="/logout" method="post" style="display:inline">
+          <button class="link-button" type="submit">Logout</button>
+        </form>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="container">
+    <h1>All Categories</h1>
+    <ul>
+      <% categories.forEach(c => { %>
+        <li>
+          <a href="/categories/<%= c.name %>"><%= c.name %></a>
+        </li>
+      <% }) %>
+    </ul>
+  </main>
+</body>
+</html>
